@@ -15,7 +15,6 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 import json
@@ -26,13 +25,14 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-client = TembaClient(
-    settings.RAPIDPRO_HOST,
-    settings.RAPIDPRO_TOKEN)
-
 
 @csrf_exempt
 def receive(request):
+    from django.conf import settings
+    client = TembaClient(
+        settings.RAPIDPRO_HOST,
+        settings.RAPIDPRO_TOKEN)
+
     data = json.loads(request.body)
     logger.info('Received: %r' % (data,))
 

@@ -1,6 +1,5 @@
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from django.shortcuts import reverse
-from django.conf import settings
 import responses
 import pkg_resources
 import json
@@ -9,13 +8,20 @@ import json
 class RapidFormTest(TestCase):
 
     @responses.activate
+    @override_settings(
+        RAPIDPRO_HOST='example.org',
+        RAPIDPRO_FLOW='flow',
+        RAPIDPRO_TOKEN='token',
+        RAPIDPRO_URN_COUNTRY_CODE='256',
+        RAPIDPRO_URN_FIELD='WHPX'
+    )
     def test_post(self):
 
         def cb(request):
             self.maxDiff = None
             data = json.loads(request.body)
             self.assertEqual(data, {
-                "flow": settings.RAPIDPRO_FLOW,
+                "flow": 'flow',
                 "urns": [
                     "tel:+256-700-000000",
                 ],
@@ -111,7 +117,7 @@ class RapidFormTest(TestCase):
 
         responses.add_callback(
             responses.POST,
-            "https://%s/api/v2/flow_starts.json" % (settings.RAPIDPRO_HOST,),
+            "https://example.org/api/v2/flow_starts.json",
             callback=cb, content_type='application/json')
 
         resp = self.client.post(
