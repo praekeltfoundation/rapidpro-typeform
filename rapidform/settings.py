@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+from getenv import env
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,12 +21,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 't9^j0z8i#k329cuwh9nm1nl2%23r%hydje4*tg9g95n-6&kh18'
+SECRET_KEY = env('SECRET_KEY', 't9^j0z8i#k329cuwh9nm1nl2%23r%hydje4*tg9g95n-6&kh18')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -118,3 +119,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+RAPIDPRO_HOST = 'rapidpro.hub.familyconnect.co.ug'
+RAPIDPRO_TOKEN = 'e3ebfe2b6c7cab2fabecabf85d48d6d6b3e6d17f'
+RAPIDPRO_FLOW = "3ab63e7e-2b9b-413d-804a-18993012dfed"
+RAPIDPRO_URN_COUNTRY_CODE = "256"
+RAPIDPRO_URN_FIELD = "WHPX"
+

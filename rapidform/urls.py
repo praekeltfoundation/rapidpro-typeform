@@ -15,7 +15,48 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from django.conf import settings
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse
+import json
+import phonenumbers
+from temba_client.v2 import TembaClient
+
+import logging
+
+logger = logging.getLogger(__name__)
+
+client = TembaClient(
+    settings.RAPIDPRO_HOST,
+    settings.RAPIDPRO_TOKEN)
+
+
+@csrf_exempt
+def receive(request):
+    data = json.loads(request.body)
+    logger.info('Received: %r' % (data,))
+
+    answers = dict([
+        (answer['field']['id'], answer)
+        for answer in data['form_response']['answers']])
+
+    urns = [
+        phonenumbers.PhoneNumber(
+            settings.RAPIDPRO_URN_COUNTRY_CODE,
+            answers[settings.RAPIDPRO_URN_FIELD]['text'])]
+
+    client.create_flow_start(
+        flow=settings.RAPIDPRO_FLOW,
+        urns=[
+            phonenumbers.format_number(
+                urn, phonenumbers.PhoneNumberFormat.RFC3966)
+            for urn in urns
+        ],
+        extra=answers)
+    return HttpResponse()
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'', receive, name='receive')
 ]
