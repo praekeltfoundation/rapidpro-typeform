@@ -3,6 +3,7 @@ RapidPro TypeForm Relay
 
 Environment variables:
 
+- DEBUG
 - SECRET_KEY
 - RAPIDPRO_HOST
 - RAPIDPRO_TOKEN
