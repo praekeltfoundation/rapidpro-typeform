@@ -19,6 +19,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from django.http import HttpResponse
 from django.views import View
+from collections import defaultdict
 
 import json
 import phonenumbers
@@ -47,6 +48,12 @@ class ReceiveView(View):
             (answer['field']['id'], answer)
             for answer in data['form_response']['answers']])
 
+        matches = defaultdict(list)
+        for pattern in settings.RAPIDPRO_PATTERNS:
+            for field in data['form_response']['definition']['fields']:
+                if pattern.lower() in field['title'].lower():
+                    matches[pattern.lower()].append(answers[field['id']])
+
         urns = [
             phonenumbers.PhoneNumber(
                 settings.RAPIDPRO_URN_COUNTRY_CODE,
@@ -59,7 +66,10 @@ class ReceiveView(View):
                     urn, phonenumbers.PhoneNumberFormat.RFC3966)
                 for urn in urns
             ],
-            extra=answers)
+            extra={
+                'answers': answers,
+                'patterns': matches,
+            })
         return HttpResponse()
 
 

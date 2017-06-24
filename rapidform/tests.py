@@ -13,7 +13,8 @@ class RapidFormTest(TestCase):
         RAPIDPRO_FLOW='flow',
         RAPIDPRO_TOKEN='token',
         RAPIDPRO_URN_COUNTRY_CODE='256',
-        RAPIDPRO_URN_FIELD='WHPX'
+        RAPIDPRO_URN_FIELD='WHPX',
+        RAPIDPRO_PATTERNS=['district', 'village'],
     )
     def test_post(self):
 
@@ -26,61 +27,85 @@ class RapidFormTest(TestCase):
                     "tel:+256-700-000000",
                 ],
                 "extra": {
-                    '53615006': {
-                        'choice': {
-                            'label': 'East Central'
+                    'answers': {
+                        '53615006': {
+                            'choice': {
+                                'label': 'East Central'
+                            },
+                            'field': {
+                                'id': '53615006',
+                                'type': 'multiple_choice'
+                            },
+                            'type': 'choice'
                         },
-                        'field': {
-                            'id': '53615006',
-                            'type': 'multiple_choice'
+                        '53615733': {
+                            'choice': {
+                                'label': 'Iganga'
+                            },
+                            'field': {
+                                'id': '53615733',
+                                'type': 'multiple_choice'
+                            },
+                            'type': 'choice'
                         },
-                        'type': 'choice'
+                        'WHPX': {
+                            'field': {
+                                'id': 'WHPX',
+                                'type': 'short_text'
+                            },
+                            'text': '0700000000',
+                            'type': 'text'
+                        },
+                        'ZVQY': {
+                            'choice': {
+                                'label': 'VHT'
+                            },
+                            'field': {
+                                'id': 'ZVQY',
+                                'type': 'multiple_choice'
+                            },
+                            'type': 'choice'
+                        },
+                        'cO3E': {
+                            'choice': {
+                                'label': 'Bubenge A'
+                            },
+                            'field': {
+                                'id': 'cO3E',
+                                'type': 'dropdown'
+                            },
+                            'type': 'choice'
+                        },
+                        'kvq9': {
+                            'field': {
+                                'id': 'kvq9',
+                                'type': 'short_text'
+                            },
+                            'text': 'Simon de Haan',
+                            'type': 'text'
+                        }
                     },
-                    '53615733': {
-                        'choice': {
-                            'label': 'Iganga'
-                        },
-                        'field': {
-                            'id': '53615733',
-                            'type': 'multiple_choice'
-                        },
-                        'type': 'choice'
-                    },
-                    'WHPX': {
-                        'field': {
-                            'id': 'WHPX',
-                            'type': 'short_text'
-                        },
-                        'text': '0700000000',
-                        'type': 'text'
-                    },
-                    'ZVQY': {
-                        'choice': {
-                            'label': 'VHT'
-                        },
-                        'field': {
-                            'id': 'ZVQY',
-                            'type': 'multiple_choice'
-                        },
-                        'type': 'choice'
-                    },
-                    'cO3E': {
-                        'choice': {
-                            'label': 'Bubenge A'
-                        },
-                        'field': {
-                            'id': 'cO3E',
-                            'type': 'dropdown'
-                        },
-                        'type': 'choice'
-                    },
-                    'kvq9': {
-                        'field': {
-                            'id': 'kvq9',
-                            'type': 'short_text'
-                        },
-                        'text': 'Simon de Haan',
-                        'type': 'text'
+                    'patterns': {
+                        'district': [{
+                            'choice': {
+                                'label': 'Iganga',
+                            },
+                            'field': {
+                                'id': '53615733',
+                                'type': 'multiple_choice',
+                            },
+                            'type': 'choice',
+                        }],
+                        'village': [{
+                            'choice': {
+                                'label': 'Bubenge A',
+                            },
+                            'field': {
+                                'id': 'cO3E',
+                                'type': 'dropdown',
+                            },
+                            'type': 'choice'
+                        }]
                     }
                 }
             })

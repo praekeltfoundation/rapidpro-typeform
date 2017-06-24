@@ -121,14 +121,10 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 
-def print_env(env_name):
-    value = env(env_name)
-    print '%s: %s' % (env_name, value)
-    return value
-
-
-RAPIDPRO_HOST = print_env('RAPIDPRO_HOST')
-RAPIDPRO_TOKEN = print_env('RAPIDPRO_TOKEN')
-RAPIDPRO_FLOW = print_env('RAPIDPRO_FLOW')
-RAPIDPRO_URN_COUNTRY_CODE = print_env('RAPIDPRO_URN_COUNTRY_CODE')
-RAPIDPRO_URN_FIELD = print_env('RAPIDPRO_URN_FIELD')
+RAPIDPRO_HOST = env('RAPIDPRO_HOST')
+RAPIDPRO_TOKEN = env('RAPIDPRO_TOKEN')
+RAPIDPRO_FLOW = env('RAPIDPRO_FLOW')
+RAPIDPRO_URN_COUNTRY_CODE = env('RAPIDPRO_URN_COUNTRY_CODE')
+RAPIDPRO_URN_FIELD = env('RAPIDPRO_URN_FIELD')
+RAPIDPRO_PATTERNS = [
+    match.strip() for match in env('RAPIDPRO_PATTERNS', '').split(',')]
