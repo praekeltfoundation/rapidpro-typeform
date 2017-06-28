@@ -69,7 +69,7 @@ class ReceiveView(View):
                 'patterns': matches,
             }
 
-        logger.info('urns: %r' % (urns,))
+        logger.info('urns: %r' % (formatted_urns,))
         logger.info('extra: %r' % (extra,))
 
         self.client.create_flow_start(
