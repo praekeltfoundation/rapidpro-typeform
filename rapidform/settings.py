@@ -128,3 +128,32 @@ RAPIDPRO_URN_COUNTRY_CODE = env('RAPIDPRO_URN_COUNTRY_CODE')
 RAPIDPRO_URN_FIELD = env('RAPIDPRO_URN_FIELD')
 RAPIDPRO_PATTERNS = [
     match.strip() for match in env('RAPIDPRO_PATTERNS', '').split(',')]
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': ('%(levelname)s %(asctime)s %(module)s %(process)d '
+                       '%(thread)d %(message)s')
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose'
+        },
+    },
+    'loggers': {
+        'django': {
+            'level': env('DJANGO_LOG_LEVEL', 'INFO'),
+            'handlers': ['console'],
+            'propagate': True,
+        },
+        'rapidform': {
+            'level': env('DJANGO_LOG_LEVEL', 'INFO'),
+            'handlers': ['console'],
+            'propagate': True,
+        },
+    },
+}

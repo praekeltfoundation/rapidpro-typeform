@@ -59,17 +59,23 @@ class ReceiveView(View):
                 settings.RAPIDPRO_URN_COUNTRY_CODE,
                 answers[settings.RAPIDPRO_URN_FIELD]['text'])]
 
-        self.client.create_flow_start(
-            flow=settings.RAPIDPRO_FLOW,
-            urns=[
-                phonenumbers.format_number(
-                    urn, phonenumbers.PhoneNumberFormat.RFC3966)
-                for urn in urns
-            ],
-            extra={
+        formatted_urns = [
+            phonenumbers.format_number(
+                urn, phonenumbers.PhoneNumberFormat.RFC3966)
+            for urn in urns
+        ]
+        extra = {
                 'answers': answers,
                 'patterns': matches,
-            })
+            }
+
+        logger.info('urns: %r' % (urns,))
+        logger.info('extra: %r' % (extra,))
+
+        self.client.create_flow_start(
+            flow=settings.RAPIDPRO_FLOW,
+            urns=formatted_urns,
+            extra=extra)
         return HttpResponse()
 
 
